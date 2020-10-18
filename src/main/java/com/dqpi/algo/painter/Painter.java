@@ -3,11 +3,12 @@ package com.dqpi.algo.painter;
 import com.dqpi.algo.config.CanvasConfig;
 import com.dqpi.algo.sort.Draw;
 import com.dqpi.algo.view.MainView;
+import com.dqpi.algo.vm.MainVm;
+import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -19,16 +20,21 @@ import javax.annotation.Resource;
  */
 @Component
 public class Painter {
+
+    @Resource
+    private MainView mainView;
+
+    @Resource
+    private CanvasConfig canvasConfig;
+    
+    @Resource
+    private MainVm mainVm;
     
     private Canvas canvas;
     
     private GraphicsContext graCxt;
-    
-    @Resource
-    private MainView mainView;
-    
-    @Resource
-    private CanvasConfig canvasConfig;
+
+    private AnimationTimer animationTimer;
     
     @PostConstruct
     public void init() {
@@ -78,10 +84,22 @@ public class Painter {
         return (int) canvas.getHeight();
     }
     
-    @SneakyThrows
-    public void draw(int delay, Draw draw)  {
-        Thread.sleep(delay);
-        graCxt.clearRect(0, 0, getCanvasWidth(), getCanvasHeight());
-        draw.draw();
+    public void rest() {
+        try {
+            Thread.sleep(mainVm.getDelay());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void draw(Draw draw)  {
+        animationTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                graCxt.clearRect(0, 0, getCanvasWidth(), getCanvasHeight());
+                draw.draw();
+            }
+        };
+        animationTimer.start();
     }
 }

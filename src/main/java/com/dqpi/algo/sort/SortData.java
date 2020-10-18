@@ -2,16 +2,24 @@ package com.dqpi.algo.sort;
 
 import com.dqpi.algo.config.CanvasConfig;
 import com.dqpi.algo.enums.AlgoEnum;
+import com.dqpi.algo.enums.SortStatusEnum;
 import com.dqpi.algo.painter.ColorHelper;
 import com.dqpi.algo.painter.Painter;
+import com.dqpi.algo.sort.bubble_sort.BubbleSort;
+import com.dqpi.algo.sort.heap_sort.HeapSort;
+import com.dqpi.algo.sort.shell_sort.ShellSort;
 import com.dqpi.algo.sort.insert_sort.InsertSort;
 import com.dqpi.algo.sort.merge_sort.MergeSort;
 import com.dqpi.algo.sort.quick_sort.QuickSort;
 import com.dqpi.algo.sort.selection_sort.SelectionSort;
+import com.dqpi.algo.sort.three_way_quick_sort.ThreeWayQuickSort;
+import com.dqpi.algo.sort.two_way_quick_sort.TwoWayQuickSort;
 import com.dqpi.algo.vm.MainVm;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 
 /**
  * @author Mountain
@@ -33,28 +41,73 @@ public class SortData implements Draw{
     private ColorHelper colorHelper;
     
     @Resource
-    private SelectionSort selectionSort;
+    private BubbleSort bubbleSort;
     
     @Resource
-    private MergeSort mergeSort;
+    private SelectionSort selectionSort;
     
     @Resource
     private InsertSort insertSort;
     
     @Resource
+    private MergeSort mergeSort;
+    
+    @Resource
     private QuickSort quickSort;
     
+    @Resource
+    private TwoWayQuickSort twoWayQuickSort;
+    
+    @Resource
+    private ThreeWayQuickSort threeWayQuickSort;
+    
+    @Resource
+    private HeapSort heapSort;
+    
+    @Resource
+    private ShellSort shellSort;
+    
+    @Setter
     private int[] numbers;
     
     public void initNumbers() {
         if (mainVm.getSize() == 0) {
             return;
         }
+        
         numbers = new int[mainVm.getSize()];
-        for (int i = 0; i < mainVm.getSize(); i++) {
-            numbers[i] = (int) (Math.random() * canvasConfig.getHeight()) + 1;
+        switch (SortStatusEnum.getAlgo(mainVm.getSortStatus())) {
+            case CHAOS_ORDER:
+                for (int i = 0; i < mainVm.getSize(); i++) {
+                    numbers[i] = (int) (Math.random() * canvasConfig.getHeight()) + 1;
+                }
+                break;
+            case ALMOST_ORDER:
+                for (int i = 0; i < mainVm.getSize(); i++) {
+                    numbers[i] = (int) (Math.random() * canvasConfig.getHeight()) + 1;
+                }
+                Arrays.sort(numbers);
+                int swapTime = (int) (0.02 * numbers.length);
+                if (swapTime == 0) {
+                    swapTime = 1;
+                }
+                for(int i = 0 ; i < swapTime; i ++){
+                    int a = (int)(Math.random() * numbers.length);
+                    int b = (int)(Math.random() * numbers.length);
+                    int temp = numbers[a];
+                    numbers[a] = numbers[b];
+                    numbers[b] = temp;
+                }
+                break;
+            case EQUAL_ORDER:
+                for (int i = 0; i < mainVm.getSize(); i++) {
+                    numbers[i] = painter.getCanvasHeight() / 2;
+                }
+                break;
+            default:
+                break;
         }
-        painter.draw(canvasConfig.getDelay(), this);
+        painter.draw(this);
     }
     
     public void sort(AlgoEnum algoEnum) {
@@ -62,6 +115,10 @@ public class SortData implements Draw{
             return;
         }
         switch (algoEnum) {
+            case BUBBLE_SORT:
+                bubbleSort.setNumbers(numbers);
+                bubbleSort.bubbleSort();
+                break;
             case SELECTION_SORT:
                 selectionSort.setNumbers(numbers);
                 selectionSort.selectionSort();
@@ -73,17 +130,30 @@ public class SortData implements Draw{
             case MERGE_SORT:
                 mergeSort.setNumbers(numbers);
                 mergeSort.mergeSort();
-            case ONE_WAY_QUICK_SORT:
+                break;
+            case QUICK_SORT:
                 quickSort.setNumbers(numbers);
-                quickSort.quickSort(AlgoEnum.ONE_WAY_QUICK_SORT);
+                quickSort.quickSort(AlgoEnum.QUICK_SORT);
+                break;
+            case RANDOM_QUICK_SORT:
+                quickSort.setNumbers(numbers);
+                quickSort.quickSort(AlgoEnum.RANDOM_QUICK_SORT);
                 break;
             case TWO_WAY_QUICK_SORT:
-                quickSort.setNumbers(numbers);
-                quickSort.quickSort(AlgoEnum.TWO_WAY_QUICK_SORT);
+                twoWayQuickSort.setNumbers(numbers);
+                twoWayQuickSort.quickSort();
                 break;
             case THREE_WAY_QUICK_SORT:
-                quickSort.setNumbers(numbers);
-                quickSort.quickSort(AlgoEnum.THREE_WAY_QUICK_SORT);
+                threeWayQuickSort.setNumbers(numbers);
+                threeWayQuickSort.quickSort();
+                break;
+            case HEAP_SORT:
+                heapSort.setNumbers(numbers);
+                heapSort.heapSort();
+                break;
+            case SHELL_SORT:
+                shellSort.setNumbers(numbers);
+                shellSort.shellSort();
                 break;
             default:
                 break;

@@ -1,6 +1,5 @@
 package com.dqpi.algo.sort.selection_sort;
 
-import com.dqpi.algo.config.CanvasConfig;
 import com.dqpi.algo.painter.Painter;
 import com.dqpi.algo.vm.MainVm;
 import lombok.Setter;
@@ -25,15 +24,13 @@ public class SelectionSort {
     @Resource
     private MainVm mainVm;
     
-    @Resource
-    private CanvasConfig canvasConfig;
-
     @Setter
     private int[] numbers;
     
     @Async
     public void selectionSort() {
         draw.setNumbers(numbers);
+        painter.draw(draw);
         
         setData(0, -1, -1);
         for (int i = 0; i < numbers.length; i++) {
@@ -57,7 +54,7 @@ public class SelectionSort {
         draw.orderedIndex = orderIndex;
         draw.currentCompareIndex = currentCompareIndex;
         draw.currentMinIndex = currentMinIndex;
-        painter.draw(canvasConfig.getDelay(), draw);
+        painter.rest();
     }
 
     private void swap(int i, int j) {

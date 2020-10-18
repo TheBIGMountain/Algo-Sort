@@ -1,4 +1,4 @@
-package com.dqpi.algo.sort.merge_sort;
+package com.dqpi.algo.sort.heap_sort;
 
 import com.dqpi.algo.painter.ColorHelper;
 import com.dqpi.algo.painter.Painter;
@@ -10,23 +10,24 @@ import javax.annotation.Resource;
 
 /**
  * @author Mountain
- * @date 2020/10/17
+ * @date 2020/10/16
  */
 @Component
-public class MergeSortDraw implements Draw {
-    
+public class HeapSortDraw implements Draw {
     @Resource
     private Painter painter;
-    
+
     @Resource
     private ColorHelper colorHelper;
-    
+
     @Setter
     private int[] numbers;
-
-    public int left, right = -1;
-    public int currentIndex = -1;
-    public boolean end = false;
+    
+    public int heapIndex;
+    
+    public int currentIndex;
+    
+    public boolean isHeap;
     
     /**
      * 具体绘制
@@ -38,22 +39,21 @@ public class MergeSortDraw implements Draw {
 
         int w = canvasWidth / numbers.length;
         for (int i = 0; i < numbers.length; i++) {
-            if (i >= left && i <= right) {
-                painter.setFillColor(colorHelper.LIGHT_GREEN);
+            if (i >= heapIndex) {
+                painter.setFillColor(colorHelper.LIGHT_BLUE);
             }
             else {
                 painter.setFillColor(colorHelper.GREY);
             }
             
-            if (i == currentIndex) {
-                painter.setFillColor(colorHelper.RED);
+            if (isHeap && i < heapIndex) {
+                painter.setFillColor(colorHelper.LIGHT_GREEN);
             }
             
-            if (end) {
-                painter.setFillColor(colorHelper.LIGHT_BLUE);
+            if (i == currentIndex) {
+                painter.setFillColor(colorHelper.RED);
             }
             painter.fillRectangle(w * i, canvasHeight - numbers[i], w - 1, numbers[i]);
         }
     }
 }
-

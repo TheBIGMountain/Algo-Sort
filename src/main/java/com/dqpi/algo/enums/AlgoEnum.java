@@ -1,31 +1,47 @@
 package com.dqpi.algo.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * @author Mountain
  * @date 2020/10/17
  */
-@AllArgsConstructor
-@Getter
 public enum AlgoEnum {
     /**
-     * 1 -- 选择排序
-     * 2 -- 插入排序
+     * 1 -- 冒泡排序
+     * 2 -- 选择排序
+     * 3 -- 插入排序
+     * 4 -- 归并排序
+     * 5 -- 快速排序
+     * 6 -- 随机快排
+     * 7 -- 双路排序
+     * 8 -- 三路排序
+     * 9 -- 堆排序
      */
-    SELECTION_SORT(1),
-    INSERT_SORT(2),
-    MERGE_SORT(3),
-    ONE_WAY_QUICK_SORT(4),
-    TWO_WAY_QUICK_SORT(5),
-    THREE_WAY_QUICK_SORT(6),
+    BUBBLE_SORT,
+    SELECTION_SORT,
+    INSERT_SORT,
+    MERGE_SORT,
+    QUICK_SORT,
+    RANDOM_QUICK_SORT,
+    TWO_WAY_QUICK_SORT,
+    THREE_WAY_QUICK_SORT,
+    HEAP_SORT,
+    SHELL_SORT,
     ;
-    private final int code;
-    
-    private static final AlgoEnum[] ALGOS = { SELECTION_SORT, INSERT_SORT, MERGE_SORT };
+
+    private static final AlgoEnum[] ALGOS = {
+            BUBBLE_SORT,
+            SELECTION_SORT,
+            INSERT_SORT,
+            MERGE_SORT,
+            QUICK_SORT,
+            RANDOM_QUICK_SORT,
+            TWO_WAY_QUICK_SORT,
+            THREE_WAY_QUICK_SORT,
+            HEAP_SORT,
+            SHELL_SORT
+    };
     
     public static AlgoEnum getAlgo(int code) {
-        return ALGOS[code - 1];
+        return ALGOS[code];
     }
 }

@@ -3,6 +3,7 @@ package com.dqpi.algo.application;
 import com.dqpi.algo.config.PaneConfig;
 import com.dqpi.algo.view.MainView;
 import de.felixroske.jfxsupport.AbstractJavaFxApplicationSupport;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
@@ -42,7 +43,21 @@ public class AlgoApplication extends AbstractJavaFxApplicationSupport {
         ChoiceBox<String> sizeList = (ChoiceBox<String>) pane.lookup("#sizeList");
         sizeList.setTooltip(new Tooltip("数量选择"));
         sizeList.getSelectionModel().select(0);
-        
+
+        ChoiceBox<String> speedList = (ChoiceBox<String>) pane.lookup("#speedList");
+        speedList.setTooltip(new Tooltip("速度选择"));
+        speedList.getSelectionModel().select(0);
+
+        ChoiceBox<String> sortStatusList = (ChoiceBox<String>) pane.lookup("#sortStatusList");
+        sortStatusList.setTooltip(new Tooltip("分布情况"));
+        sortStatusList.getSelectionModel().select(0);
+
+        Button copyCode = (Button) pane.lookup("#copyCode");
+        Tooltip tooltip = new Tooltip();
+        tooltip.setText("请选择算法");
+        tooltip.setStyle("-fx-font-size: 14");
+        copyCode.setTooltip(tooltip);
+
         stage.setTitle("排序算法");
         stage.setResizable(false);
         stage.initStyle(StageStyle.UTILITY);

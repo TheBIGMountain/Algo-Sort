@@ -1,6 +1,5 @@
 package com.dqpi.algo.sort.insert_sort;
 
-import com.dqpi.algo.config.CanvasConfig;
 import com.dqpi.algo.painter.Painter;
 import com.dqpi.algo.vm.MainVm;
 import lombok.Setter;
@@ -24,15 +23,13 @@ public class InsertSort {
     @Resource
     private MainVm mainVm;
     
-    @Resource
-    private CanvasConfig canvasConfig;
-    
     @Setter
     private int[] numbers;
 
     @Async
     public void insertSort() {
         draw.setNumbers(numbers);
+        painter.draw(draw);
         
         setData(0, -1);
         for (int i = 1; i < numbers.length; i++) {
@@ -55,6 +52,6 @@ public class InsertSort {
     private void setData(int orderIndex, int currentIndex) {
         draw.orderIndex = orderIndex;
         draw.currentIndex = currentIndex;
-        painter.draw(canvasConfig.getDelay(), draw);
+        painter.rest();
     }
 }

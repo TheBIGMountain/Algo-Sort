@@ -34,11 +34,11 @@ public class MergeSort {
     @Async
     public void mergeSort() {
         draw.setNumbers(numbers);
+        painter.draw(draw);
         
-        setData(-1, -1, -1);
+        setData(-1, -1, -1, false);
         mergeSort(0, numbers.length - 1);
-        setData(numbers.length - 1, -1, numbers.length);
-        
+        setData(0, numbers.length- 1, -1, true);
         mainVm.setInitShow(true);
         mainVm.setStartShow(true);
     }
@@ -48,11 +48,11 @@ public class MergeSort {
             return;
         }
         
-        int mid = (left + right) >>> 1;
+        int mid = (left + right) / 2;
         mergeSort(left, mid);
         mergeSort(mid + 1, right);
         merge(left, mid, right);
-        setData(right, right, -1);
+        setData(-1, -1, -1, false);
     }
 
     private void merge(int left, int mid, int right) {
@@ -88,14 +88,15 @@ public class MergeSort {
         
         for (int i = 0; i < tempArr.length; i ++) {
             numbers[i + left] = tempArr[i]; 
-            setData(i + left, i + left, -1);
+            setData(left, i + left, i + left, false);
         }
     }
     
-    private void setData(int orderIndex, int currentIndex, int endIndex) {
-        draw.orderIndex = orderIndex;
+    private void setData(int left, int right, int currentIndex, boolean end) {
+        draw.left = left;
+        draw.right = right;
         draw.currentIndex = currentIndex;
-        draw.endIndex = endIndex;
-        painter.draw(canvasConfig.getDelay(), draw);
+        draw.end = end;
+        painter.rest();
     }
 }

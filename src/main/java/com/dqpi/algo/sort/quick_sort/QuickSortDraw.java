@@ -24,6 +24,11 @@ public class QuickSortDraw implements Draw {
     @Setter
     private int[] numbers;
     
+    public int left, right;
+    public int curPivot;    
+    public int curElement;  
+    public boolean[] fixedPivot;
+    
     /**
      * 具体绘制
      */
@@ -35,6 +40,22 @@ public class QuickSortDraw implements Draw {
         int w = canvasWidth / numbers.length;
         painter.setFillColor(colorHelper.GREY);
         for (int i = 0; i < numbers.length; i++) {
+            if (i >= left && i <= right) {
+                painter.setFillColor(colorHelper.LIGHT_GREEN);
+            }
+            else {
+                painter.setFillColor(colorHelper.GREY);
+            }
+            
+            if (i == curPivot) {
+                painter.setFillColor(colorHelper.INDIGO);
+            }
+            if (i == curElement) {
+                painter.setFillColor(colorHelper.RED);
+            }
+            if (fixedPivot[i]) {
+                painter.setFillColor(colorHelper.LIGHT_BLUE);
+            }
             painter.fillRectangle(w * i, canvasHeight - numbers[i], w - 1, numbers[i]);
         }
     }
