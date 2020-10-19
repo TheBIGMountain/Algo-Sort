@@ -6,12 +6,14 @@ import com.dqpi.algo.enums.SortStatusEnum;
 import com.dqpi.algo.painter.ColorHelper;
 import com.dqpi.algo.painter.Painter;
 import com.dqpi.algo.sort.bubble_sort.BubbleSort;
+import com.dqpi.algo.sort.counting_sort.CountingSort;
 import com.dqpi.algo.sort.heap_sort.HeapSort;
-import com.dqpi.algo.sort.shell_sort.ShellSort;
 import com.dqpi.algo.sort.insert_sort.InsertSort;
 import com.dqpi.algo.sort.merge_sort.MergeSort;
 import com.dqpi.algo.sort.quick_sort.QuickSort;
+import com.dqpi.algo.sort.radix_sort.RadixSort;
 import com.dqpi.algo.sort.selection_sort.SelectionSort;
+import com.dqpi.algo.sort.shell_sort.ShellSort;
 import com.dqpi.algo.sort.three_way_quick_sort.ThreeWayQuickSort;
 import com.dqpi.algo.sort.two_way_quick_sort.TwoWayQuickSort;
 import com.dqpi.algo.vm.MainVm;
@@ -67,6 +69,12 @@ public class SortData implements Draw{
     @Resource
     private ShellSort shellSort;
     
+    @Resource
+    private CountingSort countingSort;
+    
+    @Resource
+    private RadixSort radixSort;
+    
     @Setter
     private int[] numbers;
     
@@ -107,6 +115,7 @@ public class SortData implements Draw{
             default:
                 break;
         }
+        
         painter.draw(this);
     }
     
@@ -154,6 +163,14 @@ public class SortData implements Draw{
             case SHELL_SORT:
                 shellSort.setNumbers(numbers);
                 shellSort.shellSort();
+                break;
+            case COUNTING_SORT:
+                countingSort.setNumbers(numbers);
+                countingSort.countingSort();
+                break;
+            case RADIX_SORT:
+                radixSort.setNumbers(numbers);
+                radixSort.radixSort();
                 break;
             default:
                 break;

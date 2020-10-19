@@ -55,7 +55,7 @@ public class AlgoApplication extends AbstractJavaFxApplicationSupport {
         Button copyCode = (Button) pane.lookup("#copyCode");
         Tooltip tooltip = new Tooltip();
         tooltip.setText("请选择算法");
-        tooltip.setStyle("-fx-font-size: 14");
+        tooltip.setStyle("-fx-font-size: 12");
         copyCode.setTooltip(tooltip);
 
         stage.setTitle("排序算法");

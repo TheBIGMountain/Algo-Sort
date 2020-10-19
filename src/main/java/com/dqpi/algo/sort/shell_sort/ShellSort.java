@@ -2,6 +2,7 @@ package com.dqpi.algo.sort.shell_sort;
 
 import com.dqpi.algo.painter.Painter;
 import com.dqpi.algo.vm.MainVm;
+import javafx.scene.paint.Color;
 import lombok.Setter;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -29,36 +30,67 @@ public class ShellSort {
     @Async
     public void shellSort() {
         draw.setNumbers(numbers);
+        draw.colors = new Color[numbers.length / 2];
+        for (int i = 0; i < draw.colors.length; i++) {
+            draw.colors[i] = painter.getRandomColor();
+        }
         painter.draw(draw);
         
         for (int gap = numbers.length / 2; gap > 0; gap = gap / 2) {
-            for (int i = gap; i < numbers.length; i ++) {
-                int j = i;
-                int temp = numbers[j];
-                if (numbers[j] < numbers[j - gap]) {
-                    while (j - gap >= 0 && temp < numbers[j - gap]) {
-                        numbers[j] = numbers[j - gap];
-                        j = j - gap;
-                    }
-                    numbers[j] = temp;
+            setData(-1, gap, -1, gap == 1);
+            for (int i = 0; i < gap; i ++) {
+                int j = i + gap;
+                if (gap == 1) {
+                    setData(j, gap, i, true);
                 }
-            }   
+                else {
+                    setData(j, gap, -1, false);
+                }
+                while (j < numbers.length) {
+                    if (numbers[j] < numbers[j - gap]) {
+                        int k = j;
+                        int temp = numbers[k];
+                        while (k - gap >= 0 && numbers[k - gap] > temp) {
+                            numbers[k] = numbers[k - gap];
+                            k = k - gap;
+                            if (gap == 1) {
+                                setData(k, gap, j, true);
+                            }
+                            else {
+                                setData(k, gap, -1, false);
+                            }
+                        }
+                        numbers[k] = temp;
+                        if (gap == 1) {
+                            setData(k, gap, j, true);
+                        }
+                        else {
+                            setData(k, gap, -1, false); 
+                        }
+                    }
+                    
+                    j = j + gap;
+                    if (gap == 1) {
+                        setData(j, gap, j, true);
+                    }
+                    else {
+                        setData(j, gap, -1, false);
+                    }
+                }
+            }
         }
+        setData(-1, 1, numbers.length, true);
             
         mainVm.setInitShow(true);
         mainVm.setStartShow(true);
     }
     
-    private void swap(int i, int j) {
-        int temp = numbers[i];
-        numbers[i] = numbers[j];
-        numbers[j] = temp;
-    }
     
-    private void setData(int orderIndex, int currentIndex, int currentCompareIndex) {
-        draw.orderIndex = orderIndex;
+    private void setData(int currentIndex, int gap, int isEnd, boolean end) {
         draw.currentIndex = currentIndex;
-        draw.currentCompareIndex = currentCompareIndex;
+        draw.gap = gap;
+        draw.isEnd = isEnd;
+        draw.end = end;
         painter.rest();
     }
 }

@@ -84,6 +84,13 @@ public class Painter {
         return (int) canvas.getHeight();
     }
     
+    public Color getRandomColor() {
+        int r = (int) (Math.random() * 256);
+        int g = (int) (Math.random() * 256);
+        int b = (int) (Math.random() * 256);
+        return Color.rgb(r, g, b, 0.5);
+    }
+    
     public void rest() {
         try {
             Thread.sleep(mainVm.getDelay());

@@ -15,6 +15,9 @@ public enum AlgoEnum {
      * 7 -- 双路排序
      * 8 -- 三路排序
      * 9 -- 堆排序
+     * 10 -- 希尔排序
+     * 11 -- 计数排序
+     * 12 -- 基数排序
      */
     BUBBLE_SORT,
     SELECTION_SORT,
@@ -26,6 +29,8 @@ public enum AlgoEnum {
     THREE_WAY_QUICK_SORT,
     HEAP_SORT,
     SHELL_SORT,
+    COUNTING_SORT,
+    RADIX_SORT,
     ;
 
     private static final AlgoEnum[] ALGOS = {
@@ -38,7 +43,9 @@ public enum AlgoEnum {
             TWO_WAY_QUICK_SORT,
             THREE_WAY_QUICK_SORT,
             HEAP_SORT,
-            SHELL_SORT
+            SHELL_SORT,
+            COUNTING_SORT,
+            RADIX_SORT
     };
     
     public static AlgoEnum getAlgo(int code) {

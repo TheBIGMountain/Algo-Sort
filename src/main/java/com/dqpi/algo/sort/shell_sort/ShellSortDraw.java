@@ -3,6 +3,7 @@ package com.dqpi.algo.sort.shell_sort;
 import com.dqpi.algo.painter.ColorHelper;
 import com.dqpi.algo.painter.Painter;
 import com.dqpi.algo.sort.Draw;
+import javafx.scene.paint.Color;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +24,11 @@ public class ShellSortDraw implements Draw {
     @Setter
     private int[] numbers;
     
-    public int orderIndex = -1;
     public int currentIndex = -1;
-    public int currentCompareIndex = -1;
+    public int gap = -1;
+    public int isEnd = -1;
+    public boolean end = false;
+    public Color[] colors;
     
     /**
      * 具体绘制
@@ -36,9 +39,22 @@ public class ShellSortDraw implements Draw {
         int canvasHeight = painter.getCanvasHeight();
 
         int w = canvasWidth / numbers.length;
-        for (int i = 0; i < numbers.length; i++) {
-            painter.setFillColor(colorHelper.LIGHT_BLUE);
-            painter.fillRectangle(w * i, canvasHeight - numbers[i], w - 1, numbers[i]);
+        for (int i = 0; i < gap; i ++) {
+            int j = i;
+            while (j < numbers.length) {
+                painter.setFillColor(colors[i]);
+                if (j <= isEnd) {
+                    painter.setFillColor(colorHelper.LIGHT_BLUE);
+                }
+                if (j > isEnd && end) {
+                    painter.setFillColor(colorHelper.GREY);
+                }
+                if (j == currentIndex) {
+                    painter.setFillColor(colorHelper.RED);
+                }
+                painter.fillRectangle(w * j, canvasHeight - numbers[j], w - 1, numbers[j]);
+                j = j + gap;
+            }
         }
     }
 }
