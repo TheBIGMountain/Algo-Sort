@@ -19,7 +19,7 @@
         
         <javafx-maven-plugin.version>8.8.3</javafx-maven-plugin.version>
         
-        <java.version>11</java.version>
+        <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
@@ -38,18 +38,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>11.0.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>11.0.2</version>
         </dependency>
         
         <dependency>
